@@ -15,10 +15,10 @@ var board = function() {
     padding = options.padding;
     pieceWidth = (boardWidth - (padding * (options.tilesPerSide + 1))) / options.tilesPerSide;
     tileLocations = [
-      [{value: 3}, {value: 2}, {value: 1}, {value: 0}],
-      [{value: 1}, {value: 0}, {value: 0}, {value: 0}],
-      [{value: 0}, {value: 0}, {value: 0}, {value: 0}],
-      [{value: 0}, {value: 0}, {value: 0}, {value: 0}]
+      [{value: 2}, {value: 0}, {value: 3}, {value: 0}],
+      [{value: 0}, {value: 1}, {value: 0}, {value: 0}],
+      [{value: 2}, {value: 0}, {value: 1}, {value: 0}],
+      [{value: 0}, {value: 0}, {value: 0}, {value: 1}]
     ];
   };
 
@@ -52,6 +52,20 @@ var board = function() {
                 tileLocations[k-1][j].value = tileLocations[k][j].value;
                 tileLocations[k][j].value = 0;
                 movePiece({x: j, y: k}, {x: j, y: k-1});
+              }
+            }
+          }
+        }
+      }
+    } else if(direction === 'left') {
+      for(i = 0; i < tileLocations.length; i++) {
+        for(j = 0; j < tileLocations[i].length; j++) {
+          if(tileLocations[i][j].value !== 0) {
+            for(k = tileLocations[i].length - 1; k > 0; k--) {
+              if(tileLocations[i][k-1].value === 0) {
+                tileLocations[i][k-1].value = tileLocations[i][k].value;
+                tileLocations[i][k].value = 0;
+                movePiece({x: k, y: i}, {x: k-1, y: i});
               }
             }
           }

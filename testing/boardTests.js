@@ -38,6 +38,22 @@
     ]);
   });
 
+  test("shiftBoard('left')", function() {
+    board._private.setBoard([
+      [2, 0, 3, 0],
+      [0, 1, 0, 0],
+      [2, 0, 1, 0],
+      [0, 0, 0, 1]
+    ]);
+    board._private.shiftBoard('left');
+    deepEqual(board._private.getBoard(), [
+      [2, 3, 0, 0],
+      [1, 0, 0, 0],
+      [2, 1, 0, 0],
+      [1, 0, 0, 0]
+    ]);
+  });
+
   test('getLocation()', function() {
     board.initialize({boardWidth: 100, padding: 5, tilesPerSide: 4});
 
