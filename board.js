@@ -50,24 +50,11 @@ var board = function() {
   };
 
   var drawBoard = function() {
-    var colors = {
-      1: '#eee4da',
-      2: '#ede0c8',
-      3: '#f2b179',
-      4: '#f59563',
-      5: '#f67c5f',
-      6: '#f65e3b',
-      7: '#edcf72',
-      8: '#edcc61',
-      9: '#edc850',
-      10: '#edc53f',
-      11: 'red'
-    };
     for(var i = 0; i < tileLocations.length; i++) {
       for(var j = 0; j < tileLocations[i].length; j++) {
         if(tileLocations[i][j].value > 0) {
           svg.append('rect')
-            .style('fill', colors[tileLocations[i][j].value])
+            .style('fill', getColorFromValue(tileLocations[i][j].value))
             .transition()
             .attr('x', getLocation(j))
             .attr('y', getLocation(i))
@@ -107,6 +94,23 @@ var board = function() {
 
   var getLocation = function(position) {
     return ((position + 1) * padding) + (position * pieceWidth);
+  };
+
+  var getColorFromValue = function(value) {
+    var colors = {
+      1: '#eee4da',
+      2: '#ede0c8',
+      3: '#f2b179',
+      4: '#f59563',
+      5: '#f67c5f',
+      6: '#f65e3b',
+      7: '#edcf72',
+      8: '#edcc61',
+      9: '#edc850',
+      10: '#edc53f',
+      11: 'red'
+    };
+    return colors[value];
   };
 
   var setBoard = function(locations) {
