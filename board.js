@@ -71,6 +71,20 @@ var board = function() {
           }
         }
       }
+    } else if(direction === 'right') {
+      for(i = 0; i < tileLocations.length; i++) {
+        for(j = tileLocations[i].length - 1; j >= 0; j--) {
+          if(tileLocations[i][j].value !== 0) {
+            for(k = 0; k < tileLocations[i].length - 1; k++) {
+              if(tileLocations[i][k+1].value === 0) {
+                tileLocations[i][k+1].value = tileLocations[i][k].value;
+                tileLocations[i][k].value = 0;
+                movePiece({x: k, y: i}, {x: k+1, y: i});
+              }
+            }
+          }
+        }
+      }
     }
   };
 
