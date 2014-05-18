@@ -6,25 +6,9 @@
     }
   });
 
-  test('shiftBoard()', function() {
+  test("shiftBoard('down')", function() {
     board._private.setBoard([
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 1, 0],
-      [0, 0, 0, 1]
-    ]);
-    board._private.shiftBoard('down');
-    deepEqual(board._private.getBoard(), [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 1, 1]
-    ]);
-  });
-
-  test('shiftBoard()', function() {
-    board._private.setBoard([
-      [1, 0, 0, 0],
+      [2, 0, 3, 0],
       [1, 1, 0, 0],
       [0, 0, 1, 0],
       [0, 0, 0, 1]
@@ -33,8 +17,24 @@
     deepEqual(board._private.getBoard(), [
       [0, 0, 0, 0],
       [0, 0, 0, 0],
-      [1, 0, 0, 0],
+      [2, 0, 3, 0],
       [1, 1, 1, 1]
+    ]);
+  });
+
+  test("shiftBoard('up')", function() {
+    board._private.setBoard([
+      [2, 0, 3, 0],
+      [0, 1, 0, 0],
+      [1, 0, 1, 0],
+      [0, 0, 0, 1]
+    ]);
+    board._private.shiftBoard('up');
+    deepEqual(board._private.getBoard(), [
+      [2, 1, 3, 1],
+      [1, 0, 1, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
     ]);
   });
 

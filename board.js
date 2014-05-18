@@ -28,15 +28,30 @@ var board = function() {
   };
 
   var shiftBoard = function(direction) {
+    var i, j, k;
     if(direction === 'down') {
-      for(var j = 0; j < tileLocations[0].length; j++) {
-        for(var i = tileLocations.length - 1; i >= 0; i--) {
+      for(j = 0; j < tileLocations[0].length; j++) {
+        for(i = tileLocations.length - 1; i >= 0; i--) {
           if(tileLocations[i][j].value !== 0) {
-            for(var k = i; k < tileLocations.length - 1; k++) {
+            for(k = i; k < tileLocations.length - 1; k++) {
               if(tileLocations[k+1][j].value === 0) {
                 tileLocations[k+1][j].value = tileLocations[k][j].value;
                 tileLocations[k][j].value = 0;
                 movePiece({x: j, y: k}, {x: j, y: k+1});
+              }
+            }
+          }
+        }
+      }
+    } else if(direction === 'up') {
+      for(j = 0; j < tileLocations[0].length; j++) {
+        for(i = 0; i < tileLocations.length; i++) {
+          if(tileLocations[i][j].value !== 0) {
+            for(k = tileLocations.length - 1; k > 0; k--) {
+              if(tileLocations[k-1][j].value === 0) {
+                tileLocations[k-1][j].value = tileLocations[k][j].value;
+                tileLocations[k][j].value = 0;
+                movePiece({x: j, y: k}, {x: j, y: k-1});
               }
             }
           }
