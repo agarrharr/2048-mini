@@ -50,66 +50,29 @@ var board = function() {
   };
 
   var drawBoard = function() {
-    var color;
+    var colors = {
+      1: '#eee4da',
+      2: '#ede0c8',
+      3: '#f2b179',
+      4: '#f59563',
+      5: '#f67c5f',
+      6: '#f65e3b',
+      7: '#edcf72',
+      8: '#edcc61',
+      9: '#edc850',
+      10: '#edc53f',
+      11: 'red'
+    };
     for(var i = 0; i < tileLocations.length; i++) {
       for(var j = 0; j < tileLocations[i].length; j++) {
         if(tileLocations[i][j] > 0) {
-          switch(tileLocations[i][j]) {
-            case 1:
-              //2
-              color = '#eee4da';
-              break;
-            case 2:
-              //4
-              color = '#ede0c8';
-              break;
-            case 3:
-              //8
-              color = '#f2b179';
-              break;
-            case 4:
-              //16
-              color = '#f59563';
-              break;
-            case 5:
-              //32
-              color = '#f67c5f';
-              break;
-            case 6:
-              //64
-              color = '#f65e3b';
-              break;
-            case 7:
-              //128
-              color = '#edcf72';
-              break;
-            case 8:
-              //256
-              color = '#edcc61';
-              break;
-            case 9:
-              //512
-              color = '#edc850';
-              break;
-            case 10:
-              //1024
-              color = '#edc53f';
-              break;
-            case 11:
-              //2048
-              color = 'red';
-              break;
-            default:
-              color = 'black';
-          }
-
           svg.append('rect')
             .transition()
             .attr('x', getLocation(j))
             .attr('y', getLocation(i))
             .attr('width', pieceWidth)
             .attr('height', pieceWidth)
-            .style('fill', color);
+            .style('fill', colors[tileLocations[i][j]]);
         }
       }
     }
