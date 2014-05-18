@@ -33,7 +33,6 @@ var board = function() {
       for(var j = 0; j < tileLocations[0].length; j++) {
         for(var i = tileLocations.length - 1; i >= 0; i--) {
           if(tileLocations[i][j] !== 0) {
-            console.log('not zero at- ' + i + ', ' + j);
             for(var k = i; k < tileLocations.length - 1; k++) {
               if(tileLocations[k+1][j] === 0) {
                 tileLocations[k+1][j] = tileLocations[k][j];
@@ -51,8 +50,6 @@ var board = function() {
   };
 
   var drawBoard = function() {
-    console.log('drawBoard');
-    console.log(tileLocations);
     var color;
     for(var i = 0; i < tileLocations.length; i++) {
       for(var j = 0; j < tileLocations[i].length; j++) {
