@@ -46,12 +46,14 @@ var board = function() {
   };
 
   var movePiece = function(from, to) {
-    tileLocations[from.y][from.x].rect
-      .transition()
-      .attr('x', getLocation(to.x))
-      .attr('y', getLocation(to.y));
-    tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
-    tileLocations[from.y][from.x].rect = [];
+    if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
+      tileLocations[from.y][from.x].rect
+        .transition()
+        .attr('x', getLocation(to.x))
+        .attr('y', getLocation(to.y));
+      tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
+      tileLocations[from.y][from.x].rect = [];
+    }
   };
 
   var addRandomPiece = function() {
@@ -122,11 +124,28 @@ var board = function() {
   };
 
   var setBoard = function(locations) {
-    tileLocations = locations;
+    var row = [];
+    tileLocations = [];
+    for(var i = 0; i < locations.length; i++) {
+      for(var j = 0; j < locations[i].length; j++) {
+        row.push({value: locations[i][j]});
+      }
+      tileLocations.push(row);
+      row = [];
+    }
   };
 
   var getBoard = function() {
-    return tileLocations;
+    var simplifiedTileLocations = [];
+    var row = [];
+    for(var i = 0; i < tileLocations.length; i++) {
+      for(var j = 0; j < tileLocations[i].length; j++) {
+        row.push(tileLocations[i][j].value);
+      }
+      simplifiedTileLocations.push(row);
+      row = [];
+    }
+    return simplifiedTileLocations;
   };
 
   var public = {
