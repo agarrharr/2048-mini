@@ -15,10 +15,10 @@ var board = function() {
     padding = options.padding;
     pieceWidth = (boardWidth - (padding * (options.tilesPerSide + 1))) / options.tilesPerSide;
     tileLocations = [
-      [3, 2, 1, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0]
+      [{value: 3}, {value: 2}, {value: 1}, {value: 0}],
+      [{value: 1}, {value: 0}, {value: 0}, {value: 0}],
+      [{value: 0}, {value: 0}, {value: 0}, {value: 0}],
+      [{value: 0}, {value: 0}, {value: 0}, {value: 0}]
     ];
   };
 
@@ -65,14 +65,14 @@ var board = function() {
     };
     for(var i = 0; i < tileLocations.length; i++) {
       for(var j = 0; j < tileLocations[i].length; j++) {
-        if(tileLocations[i][j] > 0) {
+        if(tileLocations[i][j].value > 0) {
           svg.append('rect')
+            .style('fill', colors[tileLocations[i][j].value])
             .transition()
             .attr('x', getLocation(j))
             .attr('y', getLocation(i))
             .attr('width', pieceWidth)
-            .attr('height', pieceWidth)
-            .style('fill', colors[tileLocations[i][j]]);
+            .attr('height', pieceWidth);
         }
       }
     }
