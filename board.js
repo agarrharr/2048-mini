@@ -25,24 +25,33 @@ var board = function() {
   var move = function(direction) {
     shiftBoard(direction);
     //addRandomPiece();
-    drawBoard();
   };
 
   var shiftBoard = function(direction) {
     if(direction === 'down') {
       for(var j = 0; j < tileLocations[0].length; j++) {
         for(var i = tileLocations.length - 1; i >= 0; i--) {
-          if(tileLocations[i][j] !== 0) {
+          if(tileLocations[i][j].value !== 0) {
             for(var k = i; k < tileLocations.length - 1; k++) {
-              if(tileLocations[k+1][j] === 0) {
-                tileLocations[k+1][j] = tileLocations[k][j];
-                tileLocations[k][j] = 0;
+              if(tileLocations[k+1][j].value === 0) {
+                tileLocations[k+1][j].value = tileLocations[k][j].value;
+                tileLocations[k][j].value = 0;
+                movePiece({x: j, y: k}, {x: j, y: k+1});
               }
             }
           }
         }
       }
     }
+  };
+
+  var movePiece = function(from, to) {
+    tileLocations[from.y][from.x].rect
+      .transition()
+      .attr('x', getLocation(to.x))
+      .attr('y', getLocation(to.y));
+    tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
+    tileLocations[from.y][from.x].rect = [];
   };
 
   var addRandomPiece = function() {
@@ -53,9 +62,8 @@ var board = function() {
     for(var i = 0; i < tileLocations.length; i++) {
       for(var j = 0; j < tileLocations[i].length; j++) {
         if(tileLocations[i][j].value > 0) {
-          svg.append('rect')
+          tileLocations[i][j].rect = svg.append('rect')
             .style('fill', getColorFromValue(tileLocations[i][j].value))
-            .transition()
             .attr('x', getLocation(j))
             .attr('y', getLocation(i))
             .attr('width', pieceWidth)
