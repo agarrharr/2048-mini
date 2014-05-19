@@ -97,7 +97,8 @@ var board = function() {
         tileLocations[from.y][from.x].rect
           .transition()
           .attr('x', getLocation(to.x))
-          .attr('y', getLocation(to.y));
+          .attr('y', getLocation(to.y))
+          .style('fill', getColorFromValue(tileLocations[to.y][to.x].value));
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
