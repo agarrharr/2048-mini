@@ -67,8 +67,12 @@ var board = function() {
       for(i = innerStart(); innerEnd(); innerIncrement()) {
         if(currentValue() !== 0) {
           for(k = backwardsLoopStart(); backwardsLoopEnd(); backwardsLoopIncrement()) {
-            if(movePiece(coordinates(), direction)) {
+            var results = movePiece(coordinates(), direction);
+            if(results.shifted) {
               shifted = true;
+              if(results.combined) {
+                break;
+              }
             }
           }
         }
@@ -92,7 +96,7 @@ var board = function() {
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
-      return true;
+      return {shifted: true, combined: false};
     } else if(tileLocations[to.y][to.x].value === tileLocations[from.y][from.x].value) {
       tileLocations[to.y][to.x].value++;
       tileLocations[from.y][from.x].value = 0;
@@ -114,9 +118,9 @@ var board = function() {
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
-      return true;
+      return {shifted: true, combined: true};
     } else {
-      return false;
+      return {shifted: false, combined: false};
     }
   };
 

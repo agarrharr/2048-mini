@@ -121,6 +121,23 @@
     ]);
   });
 
+  test("The tiles combine in the right order", function() {
+    board.initialize({drawOnCanvas: false});
+    board._private.setBoard([
+      [1, 1, 1, 0],
+      [0, 2, 2, 2],
+      [2, 2, 2, 2],
+      [3, 2, 2, 0]
+    ]);
+    board._private.shiftBoard('left');
+    deepEqual(board._private.getBoard(), [
+      [2, 1, 0, 0],
+      [3, 2, 0, 0],
+      [3, 3, 0, 0],
+      [3, 3, 0, 0]
+    ]);
+  });
+
   test('getNewLocation()', function() {
     deepEqual(board._private.getNewLocation({x: 1, y: 1}, 'up'), {x: 1, y: 0}, 'up');
     deepEqual(board._private.getNewLocation({x: 1, y: 1}, 'down'),{x: 1, y: 2}, 'down');
