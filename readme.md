@@ -15,7 +15,6 @@ Upcoming features
 - Make the new tile appear after the other tiles are finished moving and animated it in
 - End the game if the board gets filled up
 - Say "You won!" if 2048 is reached
-- Ability to move with the keyboard arrows
 
 Copyright
 =====================
