@@ -28,35 +28,34 @@ var board = function() {
   };
 
   var shiftBoard = function(direction) {
-    var i, j, k;
+    var i, j, k, outerEnd, innerStart, innerEnd, coordinates;
     if(direction === 'down') {
       outerEnd = function() { return j < tileLocations[0].length; };
       innerStart = function() { return tileLocations.length - 1; };
       innerEnd = function() { return i >= 0; };
-
+      coordinates = function() { return {x: j, y: k}; };
     } else if(direction === 'right') {
       outerEnd = function() { return j < tileLocations.length; };
       innerStart = function() { return tileLocations[j].length - 1; };
       innerEnd = function() { return i >= 0; };
+      coordinates = function() { return {x: k, y: j}; };
     } else if(direction === 'up') {
       outerEnd = function() { return j < tileLocations[0].length; };
       innerStart = function() { return 0; };
       innerEnd = function() { return i < tileLocations.length; };
+      coordinates = function() { return {x: j, y: k}; };
     } else if(direction === 'left') {
       outerEnd = function() { return j < tileLocations.length; };
       innerStart = function() { return 0; };
       innerEnd = function() { return i < tileLocations[j].length; };
+      coordinates = function() { return {x: k, y: j}; };
     }
     if(direction === 'down' || direction === 'right') {
       for(j = 0; outerEnd(); j++) {
         for(i = innerStart(); innerEnd(); i--) {
           if(tileLocations[i][j].value !== 0) {
             for(k = i; k < tileLocations.length - 1; k++) {
-              if(direction === 'down') {
-                movePiece({x: j, y: k}, direction);
-              } else {
-                movePiece({x: k, y: j}, direction);
-              }
+              movePiece(coordinates(), direction);
             }
           }
         }
@@ -66,11 +65,7 @@ var board = function() {
         for(i = innerStart(); innerEnd(); i++) {
           if(tileLocations[i][j].value !== 0) {
             for(k = tileLocations.length - 1; k > 0; k--) {
-              if(direction === 'up') {
-                movePiece({x: j, y: k}, direction);
-              } else {
-                movePiece({x: k, y: j}, direction);
-              }
+              movePiece(coordinates(), direction);
             }
           }
         }
