@@ -12,7 +12,6 @@ Feel free to play around with it if you want. And let me know what you like and 
 
 Upcoming features
 
-- Make the new tile appear after the other tiles are finished moving and animated it in
 - End the game if the board gets filled up
 - Say "You won!" if 2048 is reached
 

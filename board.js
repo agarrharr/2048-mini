@@ -30,7 +30,7 @@ var board = function() {
 
   var move = function(direction) {
     if(shiftBoard(direction)) {
-      addRandomPiece();
+      setTimeout(addRandomPiece, 100);
     }
   };
 
@@ -184,6 +184,9 @@ var board = function() {
         .style('fill', getColorFromValue(tileLocations[location.y][location.x].value))
         .attr('x', getLocation(location.x))
         .attr('y', getLocation(location.y))
+        .attr('width', 0)
+        .attr('height', 0);
+      tileLocations[location.y][location.x].rect.transition()
         .attr('width', pieceWidth)
         .attr('height', pieceWidth);
     }
