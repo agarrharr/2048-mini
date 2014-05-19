@@ -12,7 +12,6 @@ Feel free to play around with it if you want. And let me know what you like and 
 
 Upcoming features
 
-- Add a random 1 or 2 with each move
 - Ability to move with the keyboard arrows
 
 Copyright

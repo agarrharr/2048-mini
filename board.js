@@ -1,6 +1,7 @@
 var board = function() {
   var tileLocations;
   var boardWidth;
+  var tilesPerSide;
   var padding;
   var pieceWidth;
   var svg;
@@ -12,6 +13,7 @@ var board = function() {
     if(typeof options.tilesPerSide === 'undefined') { options.tilesPerSide = 4; }
 
     boardWidth = options.boardWidth;
+    tilesPerSide = options.tilesPerSide;
     padding = options.padding;
     pieceWidth = (boardWidth - (padding * (options.tilesPerSide + 1))) / options.tilesPerSide;
     tileLocations = [
@@ -24,7 +26,7 @@ var board = function() {
 
   var move = function(direction) {
     shiftBoard(direction);
-    //addRandomPiece();
+    addRandomPiece();
   };
 
   var shiftBoard = function(direction) {
@@ -124,6 +126,29 @@ var board = function() {
   };
 
   var addRandomPiece = function() {
+    var newLocation = getRandomEmptyTile();
+    if(locationIsEmpty(newLocation)) {
+      tileLocations[newLocation.y][newLocation.x].value = getRandomValue();
+      drawTile({x: newLocation.x, y: newLocation.y});
+    } else {
+      addRandomPiece();
+    }
+  };
+
+  var getRandomValue = function() {
+    return random(1, 2);
+  };
+
+  var getRandomEmptyTile = function() {
+    return {x: random(0, tilesPerSide - 1), y: random(0, tilesPerSide - 1)};
+  };
+
+  var random = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  var locationIsEmpty = function(location) {
+    return tileLocations[location.y][location.x].value === 0;
   };
 
   var drawBoard = function() {
