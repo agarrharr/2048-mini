@@ -87,6 +87,23 @@
     ]);
   });
 
+  test("Combine tiles of the same value", function() {
+    board._private.setBoard([
+      [2, 0, 3, 0],
+      [0, 1, 0, 2],
+      [2, 0, 1, 0],
+      [0, 0, 0, 1]
+    ]);
+    board._private.shiftBoard('up');
+    board._private.shiftBoard('right');
+    deepEqual(board._private.getBoard(), [
+      [3, 1, 3, 2],
+      [0, 0, 0, 2],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]);
+  });
+
   test('getNewLocation()', function() {
     deepEqual(board._private.getNewLocation({x: 1, y: 1}, 'up'), {x: 1, y: 0}, 'up');
     deepEqual(board._private.getNewLocation({x: 1, y: 1}, 'down'),{x: 1, y: 2}, 'down');

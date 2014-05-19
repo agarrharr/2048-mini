@@ -81,6 +81,26 @@ var board = function() {
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
+    } else if(tileLocations[to.y][to.x].value === tileLocations[from.y][from.x].value) {
+      tileLocations[to.y][to.x].value++;
+      tileLocations[from.y][from.x].value = 0;
+
+      if(typeof tileLocations[to.y][to.x].rect !== 'undefined') {
+        tileLocations[to.y][to.x].rect
+          .transition()
+          .attr('width', 0)
+          .attr('height', 0);
+        tileLocations[to.y][to.x].rect = undefined;
+      }
+
+      if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
+        tileLocations[from.y][from.x].rect
+          .transition()
+          .attr('x', getLocation(to.x))
+          .attr('y', getLocation(to.y));
+        tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
+        tileLocations[from.y][from.x].rect = undefined;
+      }
     }
   };
 
