@@ -30,71 +30,59 @@ var board = function() {
   var shiftBoard = function(direction) {
     var i, j, k;
     if(direction === 'down') {
-      outerStart = 0;
-      outerEnd = function(j) { return j < tileLocations[0].length; };
-      innerStart = function(j) { return tileLocations.length - 1; };
-      innerEnd = function(i) { return i >= 0;};
+      outerEnd = function() { return j < tileLocations[0].length; };
+      innerStart = function() { return tileLocations.length - 1; };
+      innerEnd = function() { return i >= 0; };
 
-    } else if(direction === 'up') {
-    } else if(direction === 'left') {
     } else if(direction === 'right') {
-      outerStart = 0;
-      outerEnd = function(j) { return j < tileLocations.length; };
-      innerStart = function(j) { return tileLocations[j].length - 1; };
-      innerEnd = function(i) { return i >= 0; };
+      outerEnd = function() { return j < tileLocations.length; };
+      innerStart = function() { return tileLocations[j].length - 1; };
+      innerEnd = function() { return i >= 0; };
+    } else if(direction === 'up') {
+      outerEnd = function() { return j < tileLocations[0].length; };
+      innerStart = function() { return 0; };
+      innerEnd = function() { return i < tileLocations.length; };
+    } else if(direction === 'left') {
+      outerEnd = function() { return j < tileLocations.length; };
+      innerStart = function() { return 0; };
+      innerEnd = function() { return i < tileLocations[j].length; };
     }
     if(direction === 'down') {
-      for(j = outerStart; outerEnd(j); j++) {
-        for(i = innerStart(j); innerEnd(i); i--) {
+      for(j = 0; outerEnd(); j++) {
+        for(i = innerStart(); innerEnd(); i--) {
           if(tileLocations[i][j].value !== 0) {
             for(k = i; k < tileLocations.length - 1; k++) {
-              if(tileLocations[k+1][j].value === 0) {
-                tileLocations[k+1][j].value = tileLocations[k][j].value;
-                tileLocations[k][j].value = 0;
-                movePiece({x: j, y: k}, {x: j, y: k+1});
-              }
+              movePiece({x: j, y: k}, 'down');
             }
           }
         }
       }
     } else if(direction === 'right') {
-      for(j = outerStart; outerEnd(j); j++) {
-        for(i = innerStart(j); innerEnd(i); i--) {
+      for(j = 0; outerEnd(); j++) {
+        for(i = innerStart(); innerEnd(); i--) {
           if(tileLocations[j][i].value !== 0) {
             for(k = i; k < tileLocations[j].length - 1; k++) {
-              if(tileLocations[j][k+1].value === 0) {
-                tileLocations[j][k+1].value = tileLocations[j][k].value;
-                tileLocations[j][k].value = 0;
-                movePiece({x: k, y: j}, {x: k+1, y: j});
-              }
+              movePiece({x: k, y: j}, 'right');
             }
           }
         }
       }
     } else if(direction === 'up') {
-      for(j = 0; j < tileLocations[0].length; j++) {
-        for(i = 0; i < tileLocations.length; i++) {
+      for(j = 0; outerEnd(); j++) {
+        for(i = innerStart(); innerEnd(); i++) {
           if(tileLocations[i][j].value !== 0) {
             for(k = tileLocations.length - 1; k > 0; k--) {
-              if(tileLocations[k-1][j].value === 0) {
-                tileLocations[k-1][j].value = tileLocations[k][j].value;
-                tileLocations[k][j].value = 0;
-                movePiece({x: j, y: k}, {x: j, y: k-1});
-              }
+              movePiece({x: j, y: k}, 'up');
             }
           }
         }
       }
     } else if(direction === 'left') {
-      for(i = 0; i < tileLocations.length; i++) {
-        for(j = 0; j < tileLocations[i].length; j++) {
-          if(tileLocations[i][j].value !== 0) {
-            for(k = tileLocations[i].length - 1; k > 0; k--) {
-              if(tileLocations[i][k-1].value === 0) {
-                tileLocations[i][k-1].value = tileLocations[i][k].value;
-                tileLocations[i][k].value = 0;
-                movePiece({x: k, y: i}, {x: k-1, y: i});
-              }
+      for(j = 0; outerEnd(); j++) {
+        for(i = innerStart(); innerEnd(); i++) {
+          if(tileLocations[j][i].value !== 0) {
+            for(k = tileLocations[j].length - 1; k > 0; k--) {
+              movePiece({x: k, y: j}, 'left');
             }
           }
         }
@@ -103,13 +91,34 @@ var board = function() {
   };
 
   var movePiece = function(from, direction) {
-    if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
-      tileLocations[from.y][from.x].rect
-        .transition()
-        .attr('x', getLocation(to.x))
-        .attr('y', getLocation(to.y));
-      tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
-      tileLocations[from.y][from.x].rect = [];
+    var alterDirection = {
+      "up": function(location) {
+        return {x: location.x, y: location.y - 1};
+      },
+      "down": function(location) {
+        return {x: location.x, y: location.y + 1};
+      },
+      "left": function(location) {
+        return {x: location.x - 1, y: location.y};
+      },
+      "right": function(location) {
+        return {x: location.x + 1, y: location.y};
+      },
+    };
+    var to = alterDirection[direction](from);
+
+    if(tileLocations[to.y][to.x].value === 0) {
+      tileLocations[to.y][to.x].value = tileLocations[from.y][from.x].value;
+      tileLocations[from.y][from.x].value = 0;
+
+      if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
+        tileLocations[from.y][from.x].rect
+          .transition()
+          .attr('x', getLocation(to.x))
+          .attr('y', getLocation(to.y));
+        tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
+        tileLocations[from.y][from.x].rect = [];
+      }
     }
   };
 
