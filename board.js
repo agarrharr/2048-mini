@@ -47,42 +47,30 @@ var board = function() {
       innerStart = function() { return 0; };
       innerEnd = function() { return i < tileLocations[j].length; };
     }
-    if(direction === 'down') {
+    if(direction === 'down' || direction === 'right') {
       for(j = 0; outerEnd(); j++) {
         for(i = innerStart(); innerEnd(); i--) {
           if(tileLocations[i][j].value !== 0) {
             for(k = i; k < tileLocations.length - 1; k++) {
-              movePiece({x: j, y: k}, 'down');
+              if(direction === 'down') {
+                movePiece({x: j, y: k}, direction);
+              } else {
+                movePiece({x: k, y: j}, direction);
+              }
             }
           }
         }
       }
-    } else if(direction === 'right') {
-      for(j = 0; outerEnd(); j++) {
-        for(i = innerStart(); innerEnd(); i--) {
-          if(tileLocations[j][i].value !== 0) {
-            for(k = i; k < tileLocations[j].length - 1; k++) {
-              movePiece({x: k, y: j}, 'right');
-            }
-          }
-        }
-      }
-    } else if(direction === 'up') {
+    } else if(direction === 'up' || direction === 'left') {
       for(j = 0; outerEnd(); j++) {
         for(i = innerStart(); innerEnd(); i++) {
           if(tileLocations[i][j].value !== 0) {
             for(k = tileLocations.length - 1; k > 0; k--) {
-              movePiece({x: j, y: k}, 'up');
-            }
-          }
-        }
-      }
-    } else if(direction === 'left') {
-      for(j = 0; outerEnd(); j++) {
-        for(i = innerStart(); innerEnd(); i++) {
-          if(tileLocations[j][i].value !== 0) {
-            for(k = tileLocations[j].length - 1; k > 0; k--) {
-              movePiece({x: k, y: j}, 'left');
+              if(direction === 'up') {
+                movePiece({x: j, y: k}, direction);
+              } else {
+                movePiece({x: k, y: j}, direction);
+              }
             }
           }
         }
