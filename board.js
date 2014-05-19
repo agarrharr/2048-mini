@@ -30,14 +30,42 @@ var board = function() {
   var shiftBoard = function(direction) {
     var i, j, k;
     if(direction === 'down') {
-      for(j = 0; j < tileLocations[0].length; j++) {
-        for(i = tileLocations.length - 1; i >= 0; i--) {
+      outerStart = 0;
+      outerEnd = function(j) { return j < tileLocations[0].length; };
+      innerStart = function(j) { return tileLocations.length - 1; };
+      innerEnd = function(i) { return i >= 0;};
+
+    } else if(direction === 'up') {
+    } else if(direction === 'left') {
+    } else if(direction === 'right') {
+      outerStart = 0;
+      outerEnd = function(j) { return j < tileLocations.length; };
+      innerStart = function(j) { return tileLocations[j].length - 1; };
+      innerEnd = function(i) { return i >= 0; };
+    }
+    if(direction === 'down') {
+      for(j = outerStart; outerEnd(j); j++) {
+        for(i = innerStart(j); innerEnd(i); i--) {
           if(tileLocations[i][j].value !== 0) {
             for(k = i; k < tileLocations.length - 1; k++) {
               if(tileLocations[k+1][j].value === 0) {
                 tileLocations[k+1][j].value = tileLocations[k][j].value;
                 tileLocations[k][j].value = 0;
                 movePiece({x: j, y: k}, {x: j, y: k+1});
+              }
+            }
+          }
+        }
+      }
+    } else if(direction === 'right') {
+      for(j = outerStart; outerEnd(j); j++) {
+        for(i = innerStart(j); innerEnd(i); i--) {
+          if(tileLocations[j][i].value !== 0) {
+            for(k = i; k < tileLocations[j].length - 1; k++) {
+              if(tileLocations[j][k+1].value === 0) {
+                tileLocations[j][k+1].value = tileLocations[j][k].value;
+                tileLocations[j][k].value = 0;
+                movePiece({x: k, y: j}, {x: k+1, y: j});
               }
             }
           }
@@ -71,24 +99,10 @@ var board = function() {
           }
         }
       }
-    } else if(direction === 'right') {
-      for(i = 0; i < tileLocations.length; i++) {
-        for(j = tileLocations[i].length - 1; j >= 0; j--) {
-          if(tileLocations[i][j].value !== 0) {
-            for(k = 0; k < tileLocations[i].length - 1; k++) {
-              if(tileLocations[i][k+1].value === 0) {
-                tileLocations[i][k+1].value = tileLocations[i][k].value;
-                tileLocations[i][k].value = 0;
-                movePiece({x: k, y: i}, {x: k+1, y: i});
-              }
-            }
-          }
-        }
-      }
     }
   };
 
-  var movePiece = function(from, to) {
+  var movePiece = function(from, direction) {
     if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
       tileLocations[from.y][from.x].rect
         .transition()
