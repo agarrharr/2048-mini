@@ -29,50 +29,34 @@ var board = function() {
 
   var shiftBoard = function(direction) {
     var i, j, k;
-    var outerEnd;
-    var innerStart, innerEnd, innerIncrement;
+    var innerStart, innerEnd, innerIncrement, innerCheck;
     var backwardsLoopStart, backwardsLoopEnd, backwardsLoopIncrement;
     var coordinates;
-    if(direction === 'down') {
-      outerEnd = function() { return j < tileLocations[0].length; };
+    if(direction === 'down' || direction === 'right') {
       innerStart = function() { return tileLocations.length - 1; };
       innerEnd = function() { return i >= 0; };
       innerIncrement = function() { i--; };
       backwardsLoopStart = function() { return i; };
       backwardsLoopEnd = function() { return k < tileLocations.length - 1; };
       backwardsLoopIncrement = function() { k++; };
-      coordinates = function() { return {x: j, y: k}; };
-    } else if(direction === 'right') {
-      outerEnd = function() { return j < tileLocations.length; };
-      innerStart = function() { return tileLocations[j].length - 1; };
-      innerEnd = function() { return i >= 0; };
-      innerIncrement = function() { i--; };
-      backwardsLoopStart = function() { return i; };
-      backwardsLoopEnd = function() { return k < tileLocations.length - 1; };
-      backwardsLoopIncrement = function() { k++; };
-      coordinates = function() { return {x: k, y: j}; };
-    } else if(direction === 'up') {
-      outerEnd = function() { return j < tileLocations[0].length; };
+    } else if(direction === 'up' || direction === 'left') {
       innerStart = function() { return 0; };
       innerEnd = function() { return i < tileLocations.length; };
       innerIncrement = function() { i++; };
       backwardsLoopStart = function() { return tileLocations.length - 1; };
       backwardsLoopEnd = function() { return k > 0; };
       backwardsLoopIncrement = function() { k--; };
-      coordinates = function() { return {x: j, y: k}; };
-    } else if(direction === 'left') {
-      outerEnd = function() { return j < tileLocations.length; };
-      innerStart = function() { return 0; };
-      innerEnd = function() { return i < tileLocations[j].length; };
-      innerIncrement = function() { i++; };
-      backwardsLoopStart = function() { return tileLocations.length - 1; };
-      backwardsLoopEnd = function() { return k > 0; };
-      backwardsLoopIncrement = function() { k--; };
-      coordinates = function() { return {x: k, y: j}; };
     }
-    for(j = 0; outerEnd(); j++) {
+    if(direction === 'up' || direction === 'down') {
+      coordinates = function() { return {x: j, y: k}; };
+      innerCheck = function() { return tileLocations[i][j].value !== 0; };
+    } else if(direction === 'left' || direction === 'right') {
+      coordinates = function() { return {x: k, y: j}; };
+      innerCheck = function() { return tileLocations[j][i].value !== 0; };
+    }
+    for(j = 0; j < tileLocations.length; j++) {
       for(i = innerStart(); innerEnd(); innerIncrement()) {
-        if(tileLocations[i][j].value !== 0) {
+        if(innerCheck()) {
           for(k = backwardsLoopStart(); backwardsLoopEnd(); backwardsLoopIncrement()) {
             movePiece(coordinates(), direction);
           }
@@ -94,7 +78,7 @@ var board = function() {
           .attr('x', getLocation(to.x))
           .attr('y', getLocation(to.y));
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
-        tileLocations[from.y][from.x].rect = [];
+        tileLocations[from.y][from.x].rect = undefined;
       }
     }
   };
@@ -219,6 +203,8 @@ var board = function() {
 
   public._private = {
     shiftBoard: shiftBoard,
+    movePiece: movePiece,
+    getNewLocation: getNewLocation,
     getLocation: getLocation,
     setBoard: setBoard,
     getBoard: getBoard
