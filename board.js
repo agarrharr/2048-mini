@@ -28,45 +28,53 @@ var board = function() {
   };
 
   var shiftBoard = function(direction) {
-    var i, j, k, outerEnd, innerStart, innerEnd, coordinates;
+    var i, j, k;
+    var outerEnd;
+    var innerStart, innerEnd, innerIncrement;
+    var backwardsLoopStart, backwardsLoopEnd, backwardsLoopIncrement;
+    var coordinates;
     if(direction === 'down') {
       outerEnd = function() { return j < tileLocations[0].length; };
       innerStart = function() { return tileLocations.length - 1; };
       innerEnd = function() { return i >= 0; };
+      innerIncrement = function() { i--; };
+      backwardsLoopStart = function() { return i; };
+      backwardsLoopEnd = function() { return k < tileLocations.length - 1; };
+      backwardsLoopIncrement = function() { k++; };
       coordinates = function() { return {x: j, y: k}; };
     } else if(direction === 'right') {
       outerEnd = function() { return j < tileLocations.length; };
       innerStart = function() { return tileLocations[j].length - 1; };
       innerEnd = function() { return i >= 0; };
+      innerIncrement = function() { i--; };
+      backwardsLoopStart = function() { return i; };
+      backwardsLoopEnd = function() { return k < tileLocations.length - 1; };
+      backwardsLoopIncrement = function() { k++; };
       coordinates = function() { return {x: k, y: j}; };
     } else if(direction === 'up') {
       outerEnd = function() { return j < tileLocations[0].length; };
       innerStart = function() { return 0; };
       innerEnd = function() { return i < tileLocations.length; };
+      innerIncrement = function() { i++; };
+      backwardsLoopStart = function() { return tileLocations.length - 1; };
+      backwardsLoopEnd = function() { return k > 0; };
+      backwardsLoopIncrement = function() { k--; };
       coordinates = function() { return {x: j, y: k}; };
     } else if(direction === 'left') {
       outerEnd = function() { return j < tileLocations.length; };
       innerStart = function() { return 0; };
       innerEnd = function() { return i < tileLocations[j].length; };
+      innerIncrement = function() { i++; };
+      backwardsLoopStart = function() { return tileLocations.length - 1; };
+      backwardsLoopEnd = function() { return k > 0; };
+      backwardsLoopIncrement = function() { k--; };
       coordinates = function() { return {x: k, y: j}; };
     }
-    if(direction === 'down' || direction === 'right') {
-      for(j = 0; outerEnd(); j++) {
-        for(i = innerStart(); innerEnd(); i--) {
-          if(tileLocations[i][j].value !== 0) {
-            for(k = i; k < tileLocations.length - 1; k++) {
-              movePiece(coordinates(), direction);
-            }
-          }
-        }
-      }
-    } else if(direction === 'up' || direction === 'left') {
-      for(j = 0; outerEnd(); j++) {
-        for(i = innerStart(); innerEnd(); i++) {
-          if(tileLocations[i][j].value !== 0) {
-            for(k = tileLocations.length - 1; k > 0; k--) {
-              movePiece(coordinates(), direction);
-            }
+    for(j = 0; outerEnd(); j++) {
+      for(i = innerStart(); innerEnd(); innerIncrement()) {
+        if(tileLocations[i][j].value !== 0) {
+          for(k = backwardsLoopStart(); backwardsLoopEnd(); backwardsLoopIncrement()) {
+            movePiece(coordinates(), direction);
           }
         }
       }
