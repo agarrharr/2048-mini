@@ -91,21 +91,7 @@ var board = function() {
   };
 
   var movePiece = function(from, direction) {
-    var alterDirection = {
-      "up": function(location) {
-        return {x: location.x, y: location.y - 1};
-      },
-      "down": function(location) {
-        return {x: location.x, y: location.y + 1};
-      },
-      "left": function(location) {
-        return {x: location.x - 1, y: location.y};
-      },
-      "right": function(location) {
-        return {x: location.x + 1, y: location.y};
-      },
-    };
-    var to = alterDirection[direction](from);
+    var to = getNewLocation(from, direction);
 
     if(tileLocations[to.y][to.x].value === 0) {
       tileLocations[to.y][to.x].value = tileLocations[from.y][from.x].value;
@@ -120,6 +106,24 @@ var board = function() {
         tileLocations[from.y][from.x].rect = [];
       }
     }
+  };
+
+  var getNewLocation = function(from, direction) {
+    var alterDirection = {
+      "up": function(location) {
+        return {x: location.x, y: location.y - 1};
+      },
+      "down": function(location) {
+        return {x: location.x, y: location.y + 1};
+      },
+      "left": function(location) {
+        return {x: location.x - 1, y: location.y};
+      },
+      "right": function(location) {
+        return {x: location.x + 1, y: location.y};
+      },
+    };
+    return alterDirection[direction](from);
   };
 
   var addRandomPiece = function() {
