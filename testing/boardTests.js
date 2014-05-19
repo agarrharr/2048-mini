@@ -104,6 +104,23 @@
     ]);
   });
 
+  test("Ignore the move if no tiles moved", function() {
+    board.initialize({drawOnCanvas: false});
+    board._private.setBoard([
+      [3, 2, 1, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]);
+    board.move('up');
+    deepEqual(board._private.getBoard(), [
+      [3, 2, 1, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]);
+  });
+
   test('getNewLocation()', function() {
     deepEqual(board._private.getNewLocation({x: 1, y: 1}, 'up'), {x: 1, y: 0}, 'up');
     deepEqual(board._private.getNewLocation({x: 1, y: 1}, 'down'),{x: 1, y: 2}, 'down');

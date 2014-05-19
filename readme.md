@@ -12,7 +12,6 @@ Feel free to play around with it if you want. And let me know what you like and 
 
 Upcoming features
 
-- Ignore the move if no tiles move (don't add a new piece)
 - Make sure that the correct tiles combine if there are multiple tiles of the same value in a row
 - Make the new tile appear after the other tiles are finished moving and animated it in
 - End the game if the board gets filled up

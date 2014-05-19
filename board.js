@@ -6,30 +6,36 @@ var board = function() {
   var pieceWidth;
   var svg;
   var square1;
+  var drawOnCanvas;
 
   var initialize = function(options) {
+    if(typeof options === 'undefined') { options = {}; }
     if(typeof options.boardWidth === 'undefined') { options.boardWidth = 100; }
     if(typeof options.padding === 'undefined') { options.padding = 5; }
     if(typeof options.tilesPerSide === 'undefined') { options.tilesPerSide = 4; }
+    if(typeof options.drawOnCanvas === 'undefined') { options.drawOnCanvas = true; }
 
     boardWidth = options.boardWidth;
     tilesPerSide = options.tilesPerSide;
     padding = options.padding;
     pieceWidth = (boardWidth - (padding * (options.tilesPerSide + 1))) / options.tilesPerSide;
+    drawOnCanvas = options.drawOnCanvas;
     tileLocations = [
-      [{value: 2}, {value: 0}, {value: 3}, {value: 0}],
-      [{value: 0}, {value: 1}, {value: 0}, {value: 0}],
-      [{value: 2}, {value: 0}, {value: 1}, {value: 0}],
-      [{value: 0}, {value: 0}, {value: 0}, {value: 1}]
+      [{value: 2}, {value: 0}, {value: 0}, {value: 0}],
+      [{value: 0}, {value: 0}, {value: 0}, {value: 0}],
+      [{value: 0}, {value: 0}, {value: 0}, {value: 0}],
+      [{value: 0}, {value: 0}, {value: 0}, {value: 0}]
     ];
   };
 
   var move = function(direction) {
-    shiftBoard(direction);
-    addRandomPiece();
+    if(shiftBoard(direction)) {
+      addRandomPiece();
+    }
   };
 
   var shiftBoard = function(direction) {
+    var shifted = false;
     var i, j, k;
     var innerStart, innerEnd, innerIncrement;
     var backwardsLoopStart, backwardsLoopEnd, backwardsLoopIncrement;
@@ -46,7 +52,7 @@ var board = function() {
       innerStart = function() { return 0; };
       innerEnd = function() { return i < tileLocations.length; };
       innerIncrement = function() { i++; };
-      backwardsLoopStart = function() { return tileLocations.length - 1; };
+      backwardsLoopStart = function() { return i; };
       backwardsLoopEnd = function() { return k > 0; };
       backwardsLoopIncrement = function() { k--; };
     }
@@ -61,11 +67,14 @@ var board = function() {
       for(i = innerStart(); innerEnd(); innerIncrement()) {
         if(currentValue() !== 0) {
           for(k = backwardsLoopStart(); backwardsLoopEnd(); backwardsLoopIncrement()) {
-            movePiece(coordinates(), direction);
+            if(movePiece(coordinates(), direction)) {
+              shifted = true;
+            }
           }
         }
       }
     }
+    return shifted;
   };
 
   var movePiece = function(from, direction) {
@@ -83,6 +92,7 @@ var board = function() {
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
+      return true;
     } else if(tileLocations[to.y][to.x].value === tileLocations[from.y][from.x].value) {
       tileLocations[to.y][to.x].value++;
       tileLocations[from.y][from.x].value = 0;
@@ -104,6 +114,9 @@ var board = function() {
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -162,12 +175,14 @@ var board = function() {
   };
 
   var drawTile = function(location) {
-    tileLocations[location.y][location.x].rect = svg.append('rect')
-      .style('fill', getColorFromValue(tileLocations[location.y][location.x].value))
-      .attr('x', getLocation(location.x))
-      .attr('y', getLocation(location.y))
-      .attr('width', pieceWidth)
-      .attr('height', pieceWidth);
+    if(drawOnCanvas) {
+      tileLocations[location.y][location.x].rect = svg.append('rect')
+        .style('fill', getColorFromValue(tileLocations[location.y][location.x].value))
+        .attr('x', getLocation(location.x))
+        .attr('y', getLocation(location.y))
+        .attr('width', pieceWidth)
+        .attr('height', pieceWidth);
+    }
   };
 
   var drawBackground = function() {
