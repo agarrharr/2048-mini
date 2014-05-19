@@ -123,22 +123,25 @@ var board = function() {
   };
 
   var addRandomPiece = function() {
-
   };
 
   var drawBoard = function() {
     for(var i = 0; i < tileLocations.length; i++) {
       for(var j = 0; j < tileLocations[i].length; j++) {
         if(tileLocations[i][j].value > 0) {
-          tileLocations[i][j].rect = svg.append('rect')
-            .style('fill', getColorFromValue(tileLocations[i][j].value))
-            .attr('x', getLocation(j))
-            .attr('y', getLocation(i))
-            .attr('width', pieceWidth)
-            .attr('height', pieceWidth);
+          drawTile({x: j, y: i});
         }
       }
     }
+  };
+
+  var drawTile = function(location) {
+    tileLocations[location.y][location.x].rect = svg.append('rect')
+      .style('fill', getColorFromValue(tileLocations[location.y][location.x].value))
+      .attr('x', getLocation(location.x))
+      .attr('y', getLocation(location.y))
+      .attr('width', pieceWidth)
+      .attr('height', pieceWidth);
   };
 
   var drawBackground = function() {
