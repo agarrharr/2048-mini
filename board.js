@@ -29,8 +29,9 @@ var board = function() {
 
   var shiftBoard = function(direction) {
     var i, j, k;
-    var innerStart, innerEnd, innerIncrement, innerCheck;
+    var innerStart, innerEnd, innerIncrement;
     var backwardsLoopStart, backwardsLoopEnd, backwardsLoopIncrement;
+    var currentValue;
     var coordinates;
     if(direction === 'down' || direction === 'right') {
       innerStart = function() { return tileLocations.length - 1; };
@@ -49,14 +50,14 @@ var board = function() {
     }
     if(direction === 'up' || direction === 'down') {
       coordinates = function() { return {x: j, y: k}; };
-      innerCheck = function() { return tileLocations[i][j].value !== 0; };
+      currentValue = function() { return tileLocations[i][j].value; };
     } else if(direction === 'left' || direction === 'right') {
       coordinates = function() { return {x: k, y: j}; };
-      innerCheck = function() { return tileLocations[j][i].value !== 0; };
+      currentValue = function() { return tileLocations[j][i].value; };
     }
     for(j = 0; j < tileLocations.length; j++) {
       for(i = innerStart(); innerEnd(); innerIncrement()) {
-        if(innerCheck()) {
+        if(currentValue() !== 0) {
           for(k = backwardsLoopStart(); backwardsLoopEnd(); backwardsLoopIncrement()) {
             movePiece(coordinates(), direction);
           }
