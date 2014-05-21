@@ -198,8 +198,8 @@ var board = function() {
       .attr('height', '100%')
       .style('fill', '#bbada0');
 
-    for(var i = 0; i < 4; i++) {
-      for(var j = 0; j < 4; j++) {
+    for(var i = 0; i < tilesPerSide; i++) {
+      for(var j = 0; j < tilesPerSide; j++) {
         svg.append('rect')
           .attr('x', getLocation(i))
           .attr('y', getLocation(j))
