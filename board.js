@@ -101,8 +101,8 @@ var board = function() {
             .attr('y', getLocation(to.y));
         tileLocations[from.y][from.x].rect.select('text')
           .transition()
-            .attr('x', getLocation(to.x) + pieceWidth / 2)
-            .attr('y', getLocation(to.y) + pieceWidth / 2);
+            .attr('x', getLocation(to.x) + pieceWidth / 2 - 15)
+            .attr('y', getLocation(to.y) + pieceWidth / 2 + 20);
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
@@ -132,8 +132,8 @@ var board = function() {
         tileLocations[from.y][from.x].rect.select('text')
           .transition()
             .text(tileLocations[to.y][to.x].value)
-            .attr('x', getLocation(to.x) + pieceWidth / 2)
-            .attr('y', getLocation(to.y) + pieceWidth / 2);
+            .attr('x', getLocation(to.x) + pieceWidth / 2 - 15)
+            .attr('y', getLocation(to.y) + pieceWidth / 2 + 20);
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
       }
@@ -203,17 +203,18 @@ var board = function() {
       tileLocations[location.y][location.x].rect = svg.append('g');
       tileLocations[location.y][location.x].rect.append('rect')
         .style('fill', getColorFromValue(tileLocations[location.y][location.x].value))
-        .attr('x', getLocation(location.x) + pieceWidth / 2)
-        .attr('y', getLocation(location.y) + pieceWidth / 2)
+        .attr('x', getLocation(location.x) + pieceWidth / 2 - 15)
+        .attr('y', getLocation(location.y) + pieceWidth / 2 + 20)
         .attr('width', 0)
         .attr('height', 0)
         .attr('rx', 5)
         .attr('ry', 5);
       tileLocations[location.y][location.x].rect.append('text')
         .text(tileLocations[location.y][location.x].value)
-        .style('fill', 'black')
-        .attr('x', getLocation(location.x) + pieceWidth / 2)
-        .attr('y', getLocation(location.y) + pieceWidth / 2);
+        .style('fill', '#776e65')
+        .style('font-size', '50px')
+        .attr('x', getLocation(location.x) + pieceWidth / 2 - 15)
+        .attr('y', getLocation(location.y) + pieceWidth / 2 + 20);
       tileLocations[location.y][location.x].rect.select('rect')
         .transition()
           .attr('x', getLocation(location.x))
@@ -246,7 +247,7 @@ var board = function() {
   };
 
   var createSvg = function() {
-    svg = d3.select('body')
+    svg = d3.select('#container')
       .append('svg')
       .attr('x', 0)
       .attr('y', 0)
