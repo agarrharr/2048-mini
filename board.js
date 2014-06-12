@@ -101,7 +101,7 @@ var board = function() {
             .attr('y', getLocation(to.y));
         tileLocations[from.y][from.x].rect.select('text')
           .transition()
-            .attr('x', getLocation(to.x) + pieceWidth / 2 - 15)
+            .attr('x', getLocation(to.x) + pieceWidth / 2)
             .attr('y', getLocation(to.y) + pieceWidth / 2 + 20);
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
@@ -132,7 +132,7 @@ var board = function() {
         tileLocations[from.y][from.x].rect.select('text')
           .transition()
             .text(getNumberFromValue(tileLocations[to.y][to.x].value))
-            .attr('x', getLocation(to.x) + pieceWidth / 2 - 15)
+            .attr('x', getLocation(to.x) + pieceWidth / 2)
             .attr('y', getLocation(to.y) + pieceWidth / 2 + 20);
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
         tileLocations[from.y][from.x].rect = undefined;
@@ -213,7 +213,8 @@ var board = function() {
         .text(getNumberFromValue(tileLocations[location.y][location.x].value))
         .style('fill', '#776e65')
         .style('font-size', '50px')
-        .attr('x', getLocation(location.x) + pieceWidth / 2 - 15)
+        .attr('text-anchor', 'middle')
+        .attr('x', getLocation(location.x) + pieceWidth / 2)
         .attr('y', getLocation(location.y) + pieceWidth / 2 + 20);
       tileLocations[location.y][location.x].rect.select('rect')
         .transition()
