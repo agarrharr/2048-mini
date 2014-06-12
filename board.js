@@ -131,7 +131,7 @@ var board = function() {
             .style('fill', getColorFromValue(tileLocations[to.y][to.x].value));
         tileLocations[from.y][from.x].rect.select('text')
           .transition()
-            .text(tileLocations[to.y][to.x].value)
+            .text(getNumberFromValue(tileLocations[to.y][to.x].value))
             .attr('x', getLocation(to.x) + pieceWidth / 2 - 15)
             .attr('y', getLocation(to.y) + pieceWidth / 2 + 20);
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
@@ -210,7 +210,7 @@ var board = function() {
         .attr('rx', 5)
         .attr('ry', 5);
       tileLocations[location.y][location.x].rect.append('text')
-        .text(tileLocations[location.y][location.x].value)
+        .text(getNumberFromValue(tileLocations[location.y][location.x].value))
         .style('fill', '#776e65')
         .style('font-size', '50px')
         .attr('x', getLocation(location.x) + pieceWidth / 2 - 15)
@@ -271,9 +271,28 @@ var board = function() {
       8: '#edcc61',
       9: '#edc850',
       10: '#edc53f',
-      11: 'red'
+      11: 'red',
+      11: 'blue'
     };
     return colors[value];
+  };
+
+  var getNumberFromValue = function(value) {
+    var numbers = {
+      1: '1',
+      2: '2',
+      3: '4',
+      4: '8',
+      5: '16',
+      6: '32',
+      7: '64',
+      8: '128',
+      9: '256',
+      10: '512',
+      11: '1024',
+      11: '2048'
+    };
+    return numbers[value];
   };
 
   var setBoard = function(locations) {
