@@ -41,6 +41,7 @@ var board = function() {
     var backwardsLoopStart, backwardsLoopEnd, backwardsLoopIncrement;
     var currentValue;
     var coordinates;
+    var furthestBack;
     if(direction === 'down' || direction === 'right') {
       innerStart = function() { return tileLocations.length - 1; };
       innerEnd = function() { return i >= 0; };
@@ -64,13 +65,18 @@ var board = function() {
       currentValue = function() { return tileLocations[j][i].value; };
     }
     for(j = 0; j < tileLocations.length; j++) {
+      furthestBack = undefined;
       for(i = innerStart(); innerEnd(); innerIncrement()) {
         if(currentValue() !== 0) {
           for(k = backwardsLoopStart(); backwardsLoopEnd(); backwardsLoopIncrement()) {
+            if(typeof furthestBack !== undefined && furthestBack === k) {
+              break;
+            }
             var results = movePiece(coordinates(), direction);
             if(results.shifted) {
               shifted = true;
               if(results.combined) {
+                furthestBack = k;
                 break;
               }
             }
