@@ -1,5 +1,5 @@
 $(function() {
-  board.initialize({boardWidth: 500, padding: 5, tilesPerSide: 4});
+  board.initialize();
   board.createSvg();
   board.drawBackground();
   board.drawBoard();

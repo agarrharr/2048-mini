@@ -10,8 +10,8 @@ var board = function() {
 
   var initialize = function(options) {
     if(typeof options === 'undefined') { options = {}; }
-    if(typeof options.boardWidth === 'undefined') { options.boardWidth = 100; }
-    if(typeof options.padding === 'undefined') { options.padding = 5; }
+    if(typeof options.boardWidth === 'undefined') { options.boardWidth = 500; }
+    if(typeof options.padding === 'undefined') { options.padding = 15; }
     if(typeof options.tilesPerSide === 'undefined') { options.tilesPerSide = 4; }
     if(typeof options.drawOnCanvas === 'undefined') { options.drawOnCanvas = true; }
 
@@ -206,7 +206,9 @@ var board = function() {
         .attr('x', getLocation(location.x) + pieceWidth / 2)
         .attr('y', getLocation(location.y) + pieceWidth / 2)
         .attr('width', 0)
-        .attr('height', 0);
+        .attr('height', 0)
+        .attr('rx', 5)
+        .attr('ry', 5);
       tileLocations[location.y][location.x].rect.append('text')
         .text(tileLocations[location.y][location.x].value)
         .style('fill', 'black')
@@ -225,6 +227,8 @@ var board = function() {
     var background = svg.append('rect')
       .attr('width', '100%')
       .attr('height', '100%')
+      .attr('rx', 5)
+      .attr('ry', 5)
       .style('fill', '#bbada0');
 
     for(var i = 0; i < tilesPerSide; i++) {
@@ -234,6 +238,8 @@ var board = function() {
           .attr('y', getLocation(j))
           .attr('width', pieceWidth)
           .attr('height', pieceWidth)
+          .attr('rx', 5)
+          .attr('ry', 5)
           .style('fill', 'rgba(238, 228, 218, 0.35)');
       }
     }
