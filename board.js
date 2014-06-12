@@ -89,7 +89,7 @@ var board = function() {
       tileLocations[from.y][from.x].value = 0;
 
       if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
-        tileLocations[from.y][from.x].rect
+        tileLocations[from.y][from.x].rect.select('rect')
           .transition()
           .attr('x', getLocation(to.x))
           .attr('y', getLocation(to.y));
@@ -102,7 +102,7 @@ var board = function() {
       tileLocations[from.y][from.x].value = 0;
 
       if(typeof tileLocations[to.y][to.x].rect !== 'undefined') {
-        tileLocations[to.y][to.x].rect
+        tileLocations[to.y][to.x].rect.select('rect')
           .transition()
           .attr('width', 0)
           .attr('height', 0);
@@ -110,7 +110,7 @@ var board = function() {
       }
 
       if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
-        tileLocations[from.y][from.x].rect
+        tileLocations[from.y][from.x].rect.select('rect')
           .transition()
           .attr('x', getLocation(to.x))
           .attr('y', getLocation(to.y))
@@ -180,13 +180,16 @@ var board = function() {
 
   var drawTile = function(location) {
     if(drawOnCanvas) {
-      tileLocations[location.y][location.x].rect = svg.append('rect')
+      tileLocations[location.y][location.x].rect = svg.append('g');
+      tileLocations[location.y][location.x].rect.append('rect')
         .style('fill', getColorFromValue(tileLocations[location.y][location.x].value))
-        .attr('x', getLocation(location.x))
-        .attr('y', getLocation(location.y))
+        .attr('x', getLocation(location.x) + pieceWidth / 2)
+        .attr('y', getLocation(location.y) + pieceWidth / 2)
         .attr('width', 0)
         .attr('height', 0);
-      tileLocations[location.y][location.x].rect.transition()
+      tileLocations[location.y][location.x].rect.select('rect').transition()
+        .attr('x', getLocation(location.x))
+        .attr('y', getLocation(location.y))
         .attr('width', pieceWidth)
         .attr('height', pieceWidth);
     }
