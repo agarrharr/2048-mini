@@ -12,8 +12,14 @@ Feel free to play around with it if you want. And let me know what you like and 
 
 Upcoming features
 
+- Update the score when tiles combine
+- Improve animation when combining tiles
+- Store state and high score in localStorage
+- Load in state and high score from localStorage
+- Restart when the New Gamem button is clicked
 - End the game if the board gets filled up
 - Say "You won!" if 2048 is reached
+- Add touchscreen functionality
 
 Copyright
 =====================
