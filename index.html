@@ -2,15 +2,37 @@
 <head>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
         <style type="text/css">
+            html, body {
+                margin: 0;
+                padding: 0;
+                background: #faf8ef;
+                color: #776e65;
+                font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+                font-size: 18px;
+            }
             body {
                 background-color: #faf8ef;
             }
-            body, text {
-                font-family: 'Open Sans';
-            }
-            #container {
+            .container {
                 width: 500px;
                 margin: 50px auto 0;
+            }
+            h1.title {
+                font-size: 80px;
+                font-weight: bold;
+                margin: 0;
+                display: block;
+                float: left;
+            }
+            .above-game:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+            .game-intro {
+                float: left;
+                line-height: 42px;
+                margin-bottom: 0;
             }
         </style>
     <script src="lib/d3.min.js"></script>
@@ -20,6 +42,18 @@
     <script src="main.js"></script>
 </head>
 <body>
-    <div id="container"></div>
+    <div class="container">
+        <div class="heading">
+            <h1 class="title">2048</h1>
+            <div class= "scores-container"></div>
+        </div>
+        <div class="above-game">
+            <p class="game-intro">
+                Join the numbers and get to the 2048 tile!
+            </p>
+        </div>
+        <div class="game-container"></div>
+        <p class="game-explanation"></p>
+    </div>
 </body>
 </html>

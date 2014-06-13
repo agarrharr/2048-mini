@@ -94,8 +94,10 @@ var board = function() {
 
   var movePiece = function(from, direction) {
     var to = getNewLocation(from, direction);
+    var newLocationIsEmpty = tileLocations[to.y][to.x].value === 0;
+    var newLocationisTheSameValue = tileLocations[to.y][to.x].value === tileLocations[from.y][from.x].value;
 
-    if(tileLocations[to.y][to.x].value === 0) {
+    if(newLocationIsEmpty) {
       tileLocations[to.y][to.x].value = tileLocations[from.y][from.x].value;
       tileLocations[from.y][from.x].value = 0;
 
@@ -112,7 +114,7 @@ var board = function() {
         tileLocations[from.y][from.x].rect = undefined;
       }
       return {shifted: true, combined: false};
-    } else if(tileLocations[to.y][to.x].value === tileLocations[from.y][from.x].value) {
+    } else if(newLocationisTheSameValue) {
       tileLocations[to.y][to.x].value++;
       tileLocations[from.y][from.x].value = 0;
 
@@ -257,7 +259,7 @@ var board = function() {
   };
 
   var createSvg = function() {
-    svg = d3.select('#container')
+    svg = d3.select('.game-container')
       .append('svg')
       .attr('x', 0)
       .attr('y', 0)
