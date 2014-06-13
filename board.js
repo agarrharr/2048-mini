@@ -3,6 +3,7 @@ var board = function() {
   var tileLocations;
   var score;
   var scoreForTurn;
+  var bestScore;
   var boardWidth;
   var tilesPerSide;
   var padding;
@@ -30,6 +31,7 @@ var board = function() {
       [{value: 0}, {value: 0}, {value: 1}, {value: 0}]
     ];
     score = 0;
+    bestScore = 0;
 
     initialized = true;
   };
@@ -270,6 +272,11 @@ var board = function() {
   var incrementScore = function(value) {
     score += scoreForTurn;
     $('.score-container').html(score);
+
+    if(score >= bestScore) {
+      bestScore = score;
+      $('.best-container').html(score);
+    }
   };
 
   var incrementScoreForTurn = function(value) {
