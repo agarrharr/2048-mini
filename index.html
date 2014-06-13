@@ -17,12 +17,79 @@
                 width: 500px;
                 margin: 50px auto 0;
             }
+            .heading:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+            h1 {
+                display: block;
+                font-size: 2em;
+                -webkit-margin-before: 0.67em;
+                -webkit-margin-after: 0.67em;
+                -webkit-margin-start: 0px;
+                -webkit-margin-end: 0px;
+                font-weight: bold;
+            }
             h1.title {
                 font-size: 80px;
                 font-weight: bold;
                 margin: 0;
                 display: block;
                 float: left;
+            }
+            .score-container,
+            .best-container {
+                position: relative;
+                display: inline-block;
+                background: #bbada0;
+                padding: 15px 25px;
+                font-size: 25px;
+                height: 25px;
+                line-height: 47px;
+                font-weight: bold;
+                border-radius: 3px;
+                color: white;
+                margin-top: 8px;
+                text-align: center;
+            }
+            .scores-container {
+                float: right;
+                text-align: right;
+            }
+            .score-container:after,
+            .best-container:after {
+                position: absolute;
+                width: 100%;
+                top: 10px;
+                left: 0;
+                text-transform: uppercase;
+                font-size: 13px;
+                line-height: 13px;
+                text-align: center;
+                color: #eee4da;
+            }
+            .score-container:after {
+                content: "Score";
+            }
+            .best-container:after {
+                content: "Best";
+            }
+            .score-container .score-addition, .best-container .score-addition {
+                position: absolute;
+                right: 30px;
+                color: red;
+                font-size: 25px;
+                line-height: 25px;
+                font-weight: bold;
+                color: rgba(119, 110, 101, 0.9);
+                z-index: 100;
+                -webkit-animation: move-up 600ms ease-in;
+                -moz-animation: move-up 600ms ease-in;
+                animation: move-up 600ms ease-in;
+                -webkit-animation-fill-mode: both;
+                -moz-animation-fill-mode: both;
+                animation-fill-mode: both;
             }
             .above-game:after {
                 content: "";
@@ -33,6 +100,20 @@
                 float: left;
                 line-height: 42px;
                 margin-bottom: 0;
+            }
+            .restart-button {
+                display: inline-block;
+                background: #8f7a66;
+                border-radius: 3px;
+                padding: 0 20px;
+                text-decoration: none;
+                color: #f9f6f2;
+                height: 40px;
+                line-height: 42px;
+                cursor: pointer;
+                display: block;
+                text-align: center;
+                float: right;
             }
         </style>
     <script src="lib/d3.min.js"></script>
@@ -46,18 +127,21 @@
         <div class="heading">
             <h1 class="title">2048</h1>
             <div class="scores-container">
-                <div class="scores-container"></div>
-                <div class="best-container"></div>
+                <div class="score-container">0</div>
+                <div class="best-container">0</div>
             </div>
         </div>
+
         <div class="above-game">
-            <p class="game-intro">
-                Join the numbers and get to the 2048 tile!
-            </p>
-            <div class="restart-container"></div>
+            <p class="game-intro">Join the numbers and get to the 2048 tile!</p>
+            <a class="restart-button">New Game</a>
         </div>
+
         <div class="game-container"></div>
-        <p class="game-explanation"></p>
+        <p class="game-explanation">
+          <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+        </p>
+        <hr>
     </div>
 </body>
 </html>
