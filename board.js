@@ -31,7 +31,7 @@ var board = function() {
       [{value: 0}, {value: 0}, {value: 1}, {value: 0}]
     ];
     score = 0;
-    bestScore = 0;
+    setBestScore();
 
     initialized = true;
   };
@@ -274,13 +274,18 @@ var board = function() {
     $('.score-container').html(score);
 
     if(score >= bestScore) {
-      bestScore = score;
-      $('.best-container').html(score);
+      localStorage.setItem('bestScore', score);
+      setBestScore();
     }
   };
 
   var incrementScoreForTurn = function(value) {
     scoreForTurn += getNumberFromValue(value);
+  };
+
+  var setBestScore = function() {
+    bestScore = window.localStorage.getItem('bestScore') || 0;
+    $('.best-container').html(bestScore);
   };
 
   var createSvg = function() {
