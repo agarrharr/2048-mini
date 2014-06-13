@@ -1,9 +1,5 @@
 $(function() {
-  board.initialize();
-  board.createSvg();
-  board.drawBackground();
   board.drawBoard();
-
   $('body').on("keyup", function (e) {
     switch(e.keyCode) {
       case 37:

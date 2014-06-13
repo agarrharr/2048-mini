@@ -105,7 +105,7 @@
   });
 
   test("Ignore the move if no tiles moved", function() {
-    board.initialize({drawOnCanvas: false});
+    board._private.initialize({drawOnCanvas: false});
     board._private.setBoard([
       [3, 2, 1, 0],
       [0, 0, 0, 0],
@@ -122,7 +122,7 @@
   });
 
   test("The tiles combine in the right order", function() {
-    board.initialize({drawOnCanvas: false});
+    board._private.initialize({drawOnCanvas: false});
     board._private.setBoard([
       [1, 1, 1, 0],
       [0, 2, 2, 2],
@@ -139,7 +139,7 @@
   });
 
   test("The tiles combine in the right order and don't double combine", function() {
-    board.initialize({drawOnCanvas: false});
+    board._private.initialize({drawOnCanvas: false});
     board._private.setBoard([
       [1, 1, 2, 0],
       [0, 2, 2, 3],
@@ -163,7 +163,7 @@
   });
 
   test('getLocation()', function() {
-    board.initialize({boardWidth: 100, padding: 5, tilesPerSide: 4});
+    board._private.initialize({boardWidth: 100, padding: 5, tilesPerSide: 4});
 
     equal(board._private.getLocation(0), 5);
     equal(board._private.getLocation(1), 28.75);

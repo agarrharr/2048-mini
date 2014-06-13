@@ -1,4 +1,5 @@
 var board = function() {
+  var initialized = false;
   var tileLocations;
   var boardWidth;
   var tilesPerSide;
@@ -21,14 +22,18 @@ var board = function() {
     pieceWidth = (boardWidth - (padding * (options.tilesPerSide + 1))) / options.tilesPerSide;
     drawOnCanvas = options.drawOnCanvas;
     tileLocations = [
-      [{value: 2}, {value: 0}, {value: 0}, {value: 0}],
       [{value: 0}, {value: 0}, {value: 0}, {value: 0}],
       [{value: 0}, {value: 0}, {value: 0}, {value: 0}],
-      [{value: 0}, {value: 0}, {value: 0}, {value: 0}]
+      [{value: 0}, {value: 2}, {value: 0}, {value: 0}],
+      [{value: 0}, {value: 0}, {value: 1}, {value: 0}]
     ];
+
+    initialized = true;
   };
 
   var move = function(direction) {
+    if(!initialized) { initialize(); }
+
     if(shiftBoard(direction)) {
       setTimeout(addRandomPiece, 100);
     }
@@ -189,6 +194,10 @@ var board = function() {
   };
 
   var drawBoard = function() {
+    if(!initialized) { initialize(); }
+    createSvg();
+    drawBackground();
+
     for(var i = 0; i < tileLocations.length; i++) {
       for(var j = 0; j < tileLocations[i].length; j++) {
         if(tileLocations[i][j].value > 0) {
@@ -272,25 +281,23 @@ var board = function() {
       8: '#edcc61',
       9: '#edc850',
       10: '#edc53f',
-      11: 'red',
-      11: 'blue'
+      11: 'red'
     };
     return colors[value];
   };
 
   var getNumberFromValue = function(value) {
     var numbers = {
-      1: '1',
-      2: '2',
-      3: '4',
-      4: '8',
-      5: '16',
-      6: '32',
-      7: '64',
-      8: '128',
-      9: '256',
-      10: '512',
-      11: '1024',
+      1: '2',
+      2: '4',
+      3: '8',
+      4: '16',
+      5: '32',
+      6: '64',
+      7: '128',
+      8: '256',
+      9: '512',
+      10: '1024',
       11: '2048'
     };
     return numbers[value];
@@ -326,14 +333,12 @@ var board = function() {
   };
 
   var public = {
-    initialize: initialize,
     move: move,
-    createSvg: createSvg,
-    drawBackground: drawBackground,
     drawBoard: drawBoard
   };
 
   public._private = {
+    initialize: initialize,
     shiftBoard: shiftBoard,
     movePiece: movePiece,
     getNewLocation: getNewLocation,
