@@ -170,4 +170,22 @@
     equal(board._private.getLocation(2), 52.5);
     equal(board._private.getLocation(3), 76.25);
   });
+
+  test('When tiles combine, the score increases', function() {
+    board._private.initialize({drawOnCanvas: false});
+    board._private.setBoard([
+      [1, 1, 2, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]);
+    board._private.shiftBoard('left');
+    deepEqual(board._private.getBoard(), [
+      [2, 2, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]);
+    equal(board._private.getScore(), 4);
+  });
 })();

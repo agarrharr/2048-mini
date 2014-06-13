@@ -1,6 +1,8 @@
 var board = function() {
   var initialized = false;
   var tileLocations;
+  var score;
+  var scoreForTurn;
   var boardWidth;
   var tilesPerSide;
   var padding;
@@ -27,6 +29,7 @@ var board = function() {
       [{value: 0}, {value: 2}, {value: 0}, {value: 0}],
       [{value: 0}, {value: 0}, {value: 1}, {value: 0}]
     ];
+    score = 0;
 
     initialized = true;
   };
@@ -47,6 +50,8 @@ var board = function() {
     var currentValue;
     var coordinates;
     var furthestBack;
+    scoreForTurn = 0;
+
     if(direction === 'down' || direction === 'right') {
       innerStart = function() { return tileLocations.length - 1; };
       innerEnd = function() { return i >= 0; };
@@ -89,6 +94,8 @@ var board = function() {
         }
       }
     }
+    incrementScore();
+
     return shifted;
   };
 
@@ -117,6 +124,8 @@ var board = function() {
     } else if(newLocationisTheSameValue) {
       tileLocations[to.y][to.x].value++;
       tileLocations[from.y][from.x].value = 0;
+
+      incrementScoreForTurn(tileLocations[to.y][to.x].value);
 
       if(typeof tileLocations[to.y][to.x].rect !== 'undefined') {
         tileLocations[to.y][to.x].rect.select('rect')
@@ -258,6 +267,15 @@ var board = function() {
     }
   };
 
+  var incrementScore = function(value) {
+    score += scoreForTurn;
+    $('.score-container').html(score);
+  };
+
+  var incrementScoreForTurn = function(value) {
+    scoreForTurn += getNumberFromValue(value);
+  };
+
   var createSvg = function() {
     svg = d3.select('.game-container')
       .append('svg')
@@ -290,17 +308,17 @@ var board = function() {
 
   var getNumberFromValue = function(value) {
     var numbers = {
-      1: '2',
-      2: '4',
-      3: '8',
-      4: '16',
-      5: '32',
-      6: '64',
-      7: '128',
-      8: '256',
-      9: '512',
-      10: '1024',
-      11: '2048'
+      1: 2,
+      2: 4,
+      3: 8,
+      4: 16,
+      5: 32,
+      6: 64,
+      7: 128,
+      8: 256,
+      9: 512,
+      10: 1024,
+      11: 2048
     };
     return numbers[value];
   };
@@ -334,6 +352,10 @@ var board = function() {
     return tileLocations;
   };
 
+  var getScore = function() {
+    return score;
+  };
+
   var public = {
     move: move,
     drawBoard: drawBoard
@@ -347,7 +369,8 @@ var board = function() {
     getLocation: getLocation,
     setBoard: setBoard,
     getBoard: getBoard,
-    getTileLocations: getTileLocations
+    getTileLocations: getTileLocations,
+    getScore: getScore
   };
 
   return public;
