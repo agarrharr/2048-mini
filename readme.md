@@ -1,9 +1,9 @@
 2048-mini
 =====================
 
-A mini version of 2048 written in javascript using D3. And by mini, I just mean that it's really small and with no numbers (just color coded).
+A clone of 2048 written in javascript using D3.
 
-![Screenshot](/screenshots/screenshot1.png?raw=true "Optional Title")
+![Screenshot](/screenshots/screenshot1.png?raw=true "Start of Game")
 
 Contributing
 =====================
