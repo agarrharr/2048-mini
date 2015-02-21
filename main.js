@@ -18,4 +18,8 @@ $(function() {
         break;
     }
   });
+  $('a.restart-button').on('click', function() {
+    board.restart();
+  });
 });
+

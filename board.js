@@ -36,6 +36,12 @@ var board = function() {
     initialized = true;
   };
 
+  var restart = function() {
+    initialized = false;
+    removeSvg();
+    drawBoard();
+  };
+
   var move = function(direction) {
     if(!initialized) { initialize(); }
 
@@ -297,6 +303,10 @@ var board = function() {
       .attr('height', boardWidth);
   };
 
+  var removeSvg = function() {
+    svg.remove();
+  };
+
   var getLocation = function(position) {
     return ((position + 1) * padding) + (position * pieceWidth);
   };
@@ -370,7 +380,8 @@ var board = function() {
 
   var public = {
     move: move,
-    drawBoard: drawBoard
+    drawBoard: drawBoard,
+    restart: restart
   };
 
   public._private = {
@@ -387,3 +398,4 @@ var board = function() {
 
   return public;
 }();
+
