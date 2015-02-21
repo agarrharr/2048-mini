@@ -118,11 +118,11 @@ var board = function() {
 
       if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
         tileLocations[from.y][from.x].rect.select('rect')
-          .transition()
+          .transition('slide')
             .attr('x', getLocation(to.x))
             .attr('y', getLocation(to.y));
         tileLocations[from.y][from.x].rect.select('text')
-          .transition()
+          .transition('slide')
             .attr('x', getLocation(to.x) + pieceWidth / 2)
             .attr('y', getLocation(to.y) + pieceWidth / 2 + 20);
         tileLocations[to.y][to.x].rect = tileLocations[from.y][from.x].rect;
@@ -137,11 +137,11 @@ var board = function() {
 
       if(typeof tileLocations[to.y][to.x].rect !== 'undefined') {
         tileLocations[to.y][to.x].rect.select('rect')
-          .transition()
+          .transition('size')
             .attr('width', 0)
             .attr('height', 0);
         tileLocations[to.y][to.x].rect.select('text')
-          .transition()
+          .transition('color')
             .text('')
             .attr('fill', 'none');
         tileLocations[to.y][to.x].rect = undefined;
@@ -149,12 +149,12 @@ var board = function() {
 
       if(typeof tileLocations[from.y][from.x].rect !== 'undefined') {
         tileLocations[from.y][from.x].rect.select('rect')
-          .transition()
+          .transition('slide')
             .attr('x', getLocation(to.x))
             .attr('y', getLocation(to.y))
             .style('fill', getColorFromValue(tileLocations[to.y][to.x].value));
         tileLocations[from.y][from.x].rect.select('text')
-          .transition()
+          .transition('slide')
             .text(getNumberFromValue(tileLocations[to.y][to.x].value))
             .attr('x', getLocation(to.x) + pieceWidth / 2)
             .attr('y', getLocation(to.y) + pieceWidth / 2 + 20);
@@ -245,9 +245,11 @@ var board = function() {
         .attr('x', getLocation(location.x) + pieceWidth / 2)
         .attr('y', getLocation(location.y) + pieceWidth / 2 + 20);
       tileLocations[location.y][location.x].rect.select('rect')
-        .transition()
+        .transition('slide')
           .attr('x', getLocation(location.x))
-          .attr('y', getLocation(location.y))
+          .attr('y', getLocation(location.y));
+      tileLocations[location.y][location.x].rect.select('rect')
+        .transition('size')
           .attr('width', pieceWidth)
           .attr('height', pieceWidth);
     }
