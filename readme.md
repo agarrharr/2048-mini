@@ -6,7 +6,7 @@ A clone of 2048 written in javascript using D3.
 
 ## Contributing
 
-Feel free to play around with it if you want. And let me know what you like and don't like. You can also find me on twitter @adamCoder.
+Feel free to play around with it if you want. And let me know what you like and don't like. You can also find me on twitter @agarrharr.
 
 ## TODO
 
